@@ -1,3 +1,3 @@
 node {
-    echo "Hello, World from pipeline!"
+    echo "Hello, World from pipeline, triggered by SCM!"
 }
