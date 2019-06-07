@@ -1,0 +1,81 @@
+-1
+Osnovne komande
+- git init |....................[creates an empty Git repository]
+- git status |..................[check changes, unstaged/staged]
+- git add . |...................[stage changes]
+- git commit -m "message" |.....[commit]
+- git push origin master |......[push to master]
+
+
+0. command line:
+ - git checkout {{ime branch-a}} ..............................[checkout grane]
+ - git clone {{/path/to/repository}}...........................[create working copy of local repository]
+ - git clone {{username}}@{{host}}:{{/path/to/repository}}.....[create working copy of remote server]
+ - git commit -m "Commit message" .............................[commit message to head]
+ - git commit -a 
+
+1. SQUASH
+ - imas komit A i napravio si pull request. Treba da dodas jos jedan ili vise commitova i da se svi prikazu kao jedan
+ - dodaj nove izmene (novi commit B)
+ - idi na parenta od komita A i opciju rebase children of {{hashValue}} 
+ - dobices listu komitova A i B (childrena)
+ - odaberi gornjeg i squash with previous -> ok
+ - push (force push)
+
+2.1. CHERRY PICK FROM DIFFERENT REPOSITORY (in sourcetree)
+Dodaj novi remote 
+ -repository -> Add Remote -> dodaj novi remote (podatke pokupi sa tog drugog repositorija, repository -> settings)
+U njemu uradi search 'jump to: {{ hash od commit-a koji hoces }}' 
+Kad ga nadjes, desni klik, cherrypick
+
+2.2. CHERRY PICK FROM DIFFERENT REPOSITORY (git bash)
+# Cloning our fork
+$ git clone git clone git@github.com:ifad/rest-client.git
+
+# Adding (as "endel") the repo from we want to cherry-pick
+$ git remote add endel git://github.com/endel/rest-client.git
+
+# Fetch their branches
+$ git fetch endel
+
+# List their commits
+$ git log endel/master
+
+# Cherry-pick the commit we need
+$ git cherry-pick 97fedac
+
+# Pushing to our master
+$ git push origin master
+
+3. Konfigurisanje SourceThree-a da radi automatsko kreiranje pullRequesta
+  - desni klik na granu i create pull request
+  - iskoci popup sa "oyu do not have any remotes...", idi da settings  
+  - odaberi origin i klikni edit
+  - host type=Stash, Host Root Url=kopiraj URL/path odozgo samo do porta (npr https://{{domenName}}@bitbucket.ebs.crealogix.net:8443) i skini {{domenName}}@
+   da bude: Host Root Url= https://bitbucket.ebs.crealogix.net:8443
+  - username={{domenName}}
+  - ok - ok
+
+4. Conflict resolve. Sa A' na A ima konflikt.
+- promeni bazu grane A' da bude sad nova A grana (u medjuvremenu izmenjena).
+while(hasConflict) {
+  * resolveConflict(); 
+  * markAsResolved();
+  * continue rebase();
+}
+- push -> forcePush! DO NOT PULL!
+
+5. Merge conflict prilikom propagiranja izmena na master
+Sa grane A' (nastala od grane A) hoces da propagiras merge-ujes izmene na master M i nastao je konflikt.
+- Napravi granu M' sa M
+- Merge A' na M' i tamo resi konflikt
+- Napravi pull request sa M' na M
+
+6. Git Tag
+- git tag === da vidis sve trenutne tagove
+- git tag -a <tag_verzija> -m "message..." === kreiranje novog taga
+- git push tags === da pushujes tag na remote
+
+
+
+
